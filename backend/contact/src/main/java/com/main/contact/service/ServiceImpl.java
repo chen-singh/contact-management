@@ -24,5 +24,8 @@ public class ServiceImpl {
     public Contact getContact(String id){
         return crudRepository.findById(id).orElseThrow(()->new RuntimeException("contact not found"));
     }
+    public void delete(Contact contact){
+        crudRepository.delete(contact);
+    }
 
 }
