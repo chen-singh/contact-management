@@ -2,6 +2,7 @@ package com.main.contact.controller;
 
 
 import com.main.contact.entity.Contact;
+import com.main.contact.entity.User;
 import com.main.contact.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,11 @@ public class ContactController {
     public ResponseEntity<Page<Contact>> getAllContacts(@RequestParam (value = "page" ,defaultValue ="0" ) int page,
                                                         @RequestParam (value = "size",defaultValue = "5") int size){
         return ResponseEntity.ok().body(service.contactPage(page,size));
+    }
+
+    @PostMapping("/user")
+    public ResponseEntity<Boolean> registerUser(User user){
+        return ResponseEntity.ok().body(service.register(user));
     }
 
 }

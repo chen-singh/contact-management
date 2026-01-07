@@ -1,6 +1,7 @@
 package com.main.contact.service;
 
 import com.main.contact.entity.Contact;
+import com.main.contact.entity.User;
 import com.main.contact.repository.CrudRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,4 +34,15 @@ public class ServiceImpl {
         crudRepository.delete(contact);
     }
 
+
+    public boolean register(User user){
+
+     try {
+
+         crudRepository.save(user);
+         return true;
+     }catch (Exception e){
+     e.printStackTrace();
+     return false;
+    }
 }
