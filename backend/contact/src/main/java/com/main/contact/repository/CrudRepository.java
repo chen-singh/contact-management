@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CrudRepository extends JpaRepository<Contact ,String> {
+public interface CrudRepository extends JpaRepository<Contact ,Long> {
 
-  Optional<Contact> findById(String id);
+  Optional<Contact> findById(Long id);
 
 }
