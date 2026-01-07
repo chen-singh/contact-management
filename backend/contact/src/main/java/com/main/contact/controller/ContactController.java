@@ -25,7 +25,7 @@ public class ContactController {
       return ResponseEntity.ok().body(service.createContact(contact));
 
     }
-    @GetMapping
+    @GetMapping("/Contact")
     public ResponseEntity<Page<Contact>> getAllContacts(@RequestParam (value = "page" ,defaultValue ="0" ) int page,
                                                         @RequestParam (value = "size",defaultValue = "5") int size){
         return ResponseEntity.ok().body(service.contactPage(page,size));

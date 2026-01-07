@@ -25,7 +25,7 @@ public class ServiceImpl {
     }
 
     public Page<Contact> contactPage(int page,int size){
-        return crudRepository.findAll(PageRequest.of(page,size, Sort.by("name")));
+        return crudRepository.findAll(PageRequest.of(page,size));
     }
     public Contact getContact(Long id){
         return crudRepository.findById(id).orElseThrow(()->new RuntimeException("contact not found"));
