@@ -33,7 +33,7 @@ public class ContactController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<Boolean> registerUser(User user){
+    public ResponseEntity<User> registerUser(@RequestBody User user){
         return ResponseEntity.ok().body(service.register(user));
     }
 
