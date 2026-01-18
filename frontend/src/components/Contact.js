@@ -1,23 +1,23 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+// import React from 'react'
+// import { Link } from 'react-router-dom'
 
-const Contact = ({contact}) => {
-  return (
+// const Contact = ({contact}) => {
+//   return (
     
-    <Link to={`/contacts/${contact.id}`} className='contact_item'>
-     <div className='contact_header'> 
-      <div className='contact_details'>
-        <p className='contact_name'>{contact.name.substring(0,15)}</p>
-        <p className='contact_title'>{contact.title}</p>
-      </div>
-     </div>
-     <div className='contact_body'>
-        <p> <i className='bi bi-envelope'></i>{contact.email.substring(0,20)}</p>
-        <p> <i className='bi bi-geo'></i>{contact.address}</p>
-        <p> <i className='bi bi-telephone'></i>{contact.phone}</p>
-     </div>
-    </Link>
-  )
-}
+//     <Link to={`/contacts/${contact.id}`} className='contact_item'>
+//      <div className='contact_header'> 
+//       <div className='contact_details'>
+//         <p className='contact_name'>{contact.name.substring(0,15)}</p>
+//         <p className='contact_title'>{contact.title}</p>
+//       </div>
+//      </div>
+//      <div className='contact_body'>
+//         <p> <i className='bi bi-envelope'></i>{contact.email.substring(0,20)}</p>
+//         <p> <i className='bi bi-geo'></i>{contact.address}</p>
+//         <p> <i className='bi bi-telephone'></i>{contact.phone}</p>
+//      </div>
+//     </Link>
+//   )
+// }
 
-export default Contact
+// export default Contact

@@ -45,4 +45,7 @@ public class ServiceImpl {
       return userrepo.save(user);
 
     }
+    public User getUser(int id){
+        return userrepo.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+    }
 }
