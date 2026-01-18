@@ -41,4 +41,10 @@ public class ContactController {
     public ResponseEntity<User> getUSer(@PathVariable int id){
         return ResponseEntity.ok().body(service.getUser(id));
     }
+
+    @PostMapping("/login")
+    public User login(@RequestBody User user){
+        return service.loginuser(user.getEmail(), user.getPassword());
+
+    }
 }

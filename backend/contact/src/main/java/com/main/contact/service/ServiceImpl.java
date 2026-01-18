@@ -48,4 +48,12 @@ public class ServiceImpl {
     public User getUser(int id){
         return userrepo.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
     }
+
+    public User loginuser(String email,String password) {
+        User validuser=	userrepo.findByEmail(email);
+        if(validuser!=null && validuser.getPassword().equals(password)) {
+            return validuser;
+        }
+        return null;
+    }
 }
