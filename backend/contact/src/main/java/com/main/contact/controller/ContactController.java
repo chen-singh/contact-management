@@ -37,4 +37,8 @@ public class ContactController {
         return ResponseEntity.ok().body(service.register(user));
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<User> getUSer(@PathVariable int id){
+        return ResponseEntity.ok().body(service.getUser(id));
+    }
 }
