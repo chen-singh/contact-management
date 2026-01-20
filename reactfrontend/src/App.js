@@ -1,16 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import ChangePasswordPage from "./pages/ChangePasswordPage";
+
+import './App.css';
+import { BrowserRouter, Route, Routes ,Navigate} from 'react-router-dom';
+import Login from './components/Login';
+import Register from './components/Register';
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/change-password" element={<ChangePasswordPage />} />
-      </Routes>
+        <Routes>
+        <Route path="/" element={<Navigate to="/login" />} /> {/* Redirect to login */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        </Routes>
     </BrowserRouter>
   );
 }
