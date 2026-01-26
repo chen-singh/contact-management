@@ -50,6 +50,10 @@ public class UserController {
     public void delete(User user){
         service.deleteUser(user.getId());
     }
+    @PostMapping("/log")
+    public String log(@RequestBody User user){
+        return service.verify(user);
+    }
     //    @PutMapping
 //    public ResponseEntity<?> updateUser(@RequestBody User user){
 //     Authentication authentication= SecurityContextHolder.getContext().getAuthentication();

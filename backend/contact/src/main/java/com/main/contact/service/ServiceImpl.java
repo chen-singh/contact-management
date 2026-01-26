@@ -1,5 +1,6 @@
 package com.main.contact.service;
 
+import com.main.contact.config.AuthenticationConfig;
 import com.main.contact.entity.Contact;
 import com.main.contact.entity.User;
 import com.main.contact.repository.CrudRepository;
@@ -10,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -24,6 +28,11 @@ public class ServiceImpl {
 
     @Autowired
     private UserInterface userrepo;
+
+    @Autowired
+            private AuthenticationManager authManager;
+
+
 
 
     BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
@@ -48,7 +57,7 @@ public class ServiceImpl {
 
 
     public User register(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+       // user.setPassword(passwordEncoder.encode(user.getPassword()));
       return userrepo.save(user);
 
     }
@@ -79,5 +88,15 @@ public class ServiceImpl {
 
     public User findByUserName(String username) {
         return userrepo.findByEmail(username);
+    }
+
+
+    public String verify(User user){
+        Authentication  authentication= authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
+        if (authentication.isAuthenticated()){
+
+            return"Success";
+        }
+        return "Fail";
     }
 }
