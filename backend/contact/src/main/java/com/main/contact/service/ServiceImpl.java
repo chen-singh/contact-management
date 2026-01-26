@@ -12,7 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -25,8 +30,8 @@ public class ServiceImpl {
     @Autowired
     private UserInterface userrepo;
 
-//    @Autowired
-//    PasswordEncoder passwordEncoder=new BCryptPasswordEncoder();
+
+    BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
 
     public Contact createContact(Contact contact) {
         return crudRepository.save(contact);
@@ -42,17 +47,23 @@ public class ServiceImpl {
     }
 
     public void delete(Contact contact) {
+
         crudRepository.delete(contact);
     }
 
 
     public User register(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
       return userrepo.save(user);
 
     }
 
+    public List<User> getAllUsers(User user){
+        return  userrepo.findAll();
+    }
+
     public User createUser(User user){
-       // user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userrepo.save(user);
     }
     public User getUser(int id){
@@ -65,6 +76,10 @@ public class ServiceImpl {
             return validuser;
         }
         return null;
+    }
+
+    public void deleteUser(int id){
+        userrepo.deleteById(id);
     }
 
     public User findByUserName(String username) {

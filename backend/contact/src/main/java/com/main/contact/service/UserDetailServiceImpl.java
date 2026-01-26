@@ -1,17 +1,19 @@
 package com.main.contact.service;
-//
+
 import com.main.contact.entity.User;
 import com.main.contact.entity.UserPrincipal;
 import com.main.contact.repository.UserInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-//@Component
+@Component
 @Service
-public class UserDetailServiceImpl implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService{
 
     @Autowired
     private UserInterface userrepo;
@@ -23,6 +25,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("user not found");
         }
 
-        return new UserPrincipal();
+        return new UserPrincipal(user);
     }
 }

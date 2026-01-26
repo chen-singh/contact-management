@@ -8,15 +8,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private ServiceImpl service;
 
-    @PostMapping("/users")
+    @PostMapping
     public ResponseEntity<User> registerUser(@RequestBody User user){
         return ResponseEntity.ok().body(service.register(user));
+    }
+
+    @GetMapping
+    public List<User> getUser(User user){
+        return service.getAllUsers(user);
     }
 
 //    @PostMapping("/user")
@@ -28,7 +36,7 @@ public class UserController {
     public CsrfToken getToken(HttpServletRequest request){
         return (CsrfToken) request.getAttribute("_csrf");
     }
-    @GetMapping("/user/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUSer(@PathVariable int id){
         return ResponseEntity.ok().body(service.getUser(id));
     }
@@ -37,6 +45,10 @@ public class UserController {
     public User login(@RequestBody User user){
         return service.loginuser(user.getEmail(), user.getPassword());
 
+    }
+    @DeleteMapping
+    public void delete(User user){
+        service.deleteUser(user.getId());
     }
     //    @PutMapping
 //    public ResponseEntity<?> updateUser(@RequestBody User user){
