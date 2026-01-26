@@ -52,8 +52,8 @@ public class UserController {
     }
     //    @PutMapping
 //    public ResponseEntity<?> updateUser(@RequestBody User user){
-////        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-////        String username=authentication.getName();
+//     Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+//        String username=authentication.getName();
 //        User user1=service.findByUserName(username);
 //        if (user1!=null){
 //            user1.setName(user.getName());
