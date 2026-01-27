@@ -3,6 +3,7 @@ package com.main.contact.controller;
 
 import com.main.contact.entity.Contact;
 import com.main.contact.entity.User;
+import com.main.contact.service.ContactService;
 import com.main.contact.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/Contact")
 public class ContactController {
     @Autowired
-    private ServiceImpl service;
-
+    private ContactService service;
     @GetMapping("/{id}")
     public ResponseEntity<Contact> getContact(@PathVariable Long id){
         return ResponseEntity.ok().body(service.getContact(id));

@@ -41,11 +41,11 @@ public class UserController {
         return ResponseEntity.ok().body(service.getUser(id));
     }
 
-    @PostMapping("/login")
-    public User login(@RequestBody User user){
-        return service.loginuser(user.getEmail(), user.getPassword());
-
-    }
+//    @PostMapping("/login")
+//    public User login(@RequestBody User user){
+//        return service.loginuser(user.getEmail(), user.getPassword());
+//
+//    }
     @DeleteMapping
     public void delete(User user){
         service.deleteUser(user.getId());
