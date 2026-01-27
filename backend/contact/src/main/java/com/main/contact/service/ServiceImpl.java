@@ -30,8 +30,10 @@ public class ServiceImpl {
     private UserInterface userrepo;
 
     @Autowired
-            private AuthenticationManager authManager;
+    private AuthenticationManager authManager;
 
+    @Autowired
+    private JWTAuthentication jwtAuthentication;
 
 
 @Autowired
@@ -79,7 +81,7 @@ public class ServiceImpl {
         Authentication  authentication= authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
         if (authentication.isAuthenticated()){
 
-            return"Success";
+            return jwtAuthentication.generateToken(user.getEmail());
         }
         return "Fail";
     }
