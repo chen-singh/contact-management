@@ -27,10 +27,7 @@ public class UserController {
         return service.getAllUsers(user);
     }
 
-//    @PostMapping("/user")
-//    public ResponseEntity<User> createUser(@RequestBody User user){
-//        return ResponseEntity.ok().body(service.createUser(user));
-//    }
+
 
     @GetMapping("/token")
     public CsrfToken getToken(HttpServletRequest request){
@@ -41,30 +38,14 @@ public class UserController {
         return ResponseEntity.ok().body(service.getUser(id));
     }
 
-//    @PostMapping("/login")
-//    public User login(@RequestBody User user){
-//        return service.loginuser(user.getEmail(), user.getPassword());
-//
-//    }
+
     @DeleteMapping
     public void delete(User user){
         service.deleteUser(user.getId());
     }
-    @PostMapping("/log")
+    @PostMapping("/login")
     public String log(@RequestBody User user){
         return service.verify(user);
     }
-    //    @PutMapping
-//    public ResponseEntity<?> updateUser(@RequestBody User user){
-//     Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-//        String username=authentication.getName();
-//        User user1=service.findByUserName(username);
-//        if (user1!=null){
-//            user1.setName(user.getName());
-//            user1.setEmail(user.getEmail());
-//            user1.setPassword(user.getPassword());
-//            service.createUser(user1);
-//        }
-//         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+ 
 }
