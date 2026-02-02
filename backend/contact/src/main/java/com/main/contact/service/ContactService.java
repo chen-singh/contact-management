@@ -2,7 +2,7 @@ package com.main.contact.service;
 
 import com.main.contact.entity.Contact;
 import com.main.contact.repository.CrudRepository;
-import com.main.contact.repository.UserInterface;
+import com.main.contact.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,13 +10,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ContactService {
     @Autowired
     private CrudRepository crudRepository;
 
     @Autowired
-    private UserInterface userrepo;
+    private UserRepository userrepo;
 
     @Autowired
     private AuthenticationManager authManager;
@@ -39,8 +41,9 @@ public class ContactService {
         return crudRepository.findById(id).orElseThrow(() -> new RuntimeException("contact not found"));
     }
 
-    public void delete(Contact contact) {
+    public Optional<Contact> delete(Long id) {
 
-        crudRepository.delete(contact);
+        crudRepository.deleteById(id);
+        return null;
     }
 }

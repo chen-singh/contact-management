@@ -1,10 +1,8 @@
 package com.main.contact.service;
 
-import com.main.contact.config.AuthenticationConfig;
-import com.main.contact.entity.Contact;
 import com.main.contact.entity.User;
 import com.main.contact.repository.CrudRepository;
-import com.main.contact.repository.UserInterface;
+import com.main.contact.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +25,7 @@ public class ServiceImpl {
     private CrudRepository crudRepository;
 
     @Autowired
-    private UserInterface userrepo;
+    private UserRepository userrepo;
 
     @Autowired
     private AuthenticationManager authManager;

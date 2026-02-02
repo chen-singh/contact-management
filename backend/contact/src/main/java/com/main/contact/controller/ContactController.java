@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/Contact")
@@ -35,7 +37,9 @@ public class ContactController {
                                                         @RequestParam (value = "size",defaultValue = "5") int size){
         return ResponseEntity.ok().body(service.contactPage(page,size));
     }
-
-
+    @DeleteMapping
+    public Optional<Contact> deleteContact(@PathVariable Long id){
+      return   service.delete(id);
+    }
 
 }
