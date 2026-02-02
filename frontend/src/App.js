@@ -1,29 +1,20 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./auth/authContext";
-import Login from "./pages/login";
-import Register from "./pages/Register";
-import ChangePassword from "./pages/ChangePassword";
- import ProtectedRoute from "./auth/protectedroute";
+import Login from "./components/login";
+import Register from "./components/Register";
+import Contacts from "./components/Contact";
+import UserProfile from "./components/UProfile";
 
-const App = () => (
-  <AuthProvider>
+function App() {
+  return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        <Route
-          path="/change-password"
-          element={
-            <ProtectedRoute>
-              <ChangePassword />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>
-  </AuthProvider>
-);
+  );
+}
 
 export default App;

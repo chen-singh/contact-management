@@ -1,48 +1,29 @@
-import { useState } from "react";
-import { registerUser } from "../auth/authService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-const Register = () => {
-  const [form, setForm] = useState({
-    email: "",
-    phone: "",
-    password: "",
-  });
-
+function Register() {
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    await registerUser(form);
-    navigate("/login");
+    navigate("/contacts");
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Register</h2>
 
-      <input
-        placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-
-      <input
-        placeholder="Phone"
-        value={form.phone}
-        onChange={(e) => setForm({ ...form, phone: e.target.value })}
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
+      <input placeholder="Name" required />
+      <input placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
 
       <button type="submit">Register</button>
+
+      <p>
+        Already have an account?{" "}
+        <Link to="/">Login here</Link>
+      </p>
     </form>
   );
-};
+}
 
 export default Register;

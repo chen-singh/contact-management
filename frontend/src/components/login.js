@@ -1,48 +1,28 @@
-import { useState } from "react";
- import { loginUser } from "../auth/authService";
- import { useAuth } from "../auth/authContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-const Login = () => {
-  const [credentials, setCredentials] = useState({
-    identifier: "",
-    password: "",
-  });
-
-  const { login } = useAuth();
+function Login() {
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const user = await loginUser(credentials);
-    login(user);
-    navigate("/dashboard");
+    navigate("/contacts");
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <h2>Login</h2>
 
-      <input
-        placeholder="Email or Phone"
-        value={credentials.identifier}
-        onChange={(e) =>
-          setCredentials({ ...credentials, identifier: e.target.value })
-        }
-      />
-
-      <input
-        type="password"
-        placeholder="Password"
-        value={credentials.password}
-        onChange={(e) =>
-          setCredentials({ ...credentials, password: e.target.value })
-        }
-      />
+      <input placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
 
       <button type="submit">Login</button>
+
+      <p>
+        Don’t have an account?{" "}
+        <Link to="/register">Register here</Link>
+      </p>
     </form>
   );
-};
+}
 
 export default Login;

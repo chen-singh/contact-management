@@ -1,23 +1,121 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from "react";
+import ContactForm from "./ContactForm";
+import ConfirmModal from "./ConfirmModal";
+import Pagination from "./Pagination";
 
-const Contact = ({contact}) => {
+function Contacts() {
+  const [contacts, setContacts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [selectedContact, setSelectedContact] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 5;
+
+  const filteredContacts = contacts.filter(
+    (c) =>
+      c.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      c.lastName.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const paginatedContacts = filteredContacts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const saveContact = (contact) => {
+    if (contact.id) {
+      setContacts(contacts.map(c => c.id === contact.id ? contact : c));
+    } else {
+      setContacts([...contacts, { ...contact, id: Date.now() }]);
+    }
+    setShowForm(false);
+  };
+
   return (
-    
-    <Link to={`/contacts/${contact.id}`} className='contact_item'>
-     <div className='contact_header'> 
-      <div className='contact_details'>
-        <p className='contact_name'>{contact.name.substring(0,15)}</p>
-        <p className='contact_title'>{contact.title}</p>
+    <div className="container mt-4">
+      <div className="row mb-3 align-items-center">
+        <div className="col-md-6 col-sm-12 mb-2">
+          <input
+            className="form-control"
+            placeholder="Search contacts..."
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </div>
+
+        <div className="col-md-6 col-sm-12 text-md-end">
+          <button
+            className="btn btn-primary w-100 w-md-auto"
+            onClick={() => { setSelectedContact(null); setShowForm(true); }}
+          >
+            ➕ Create Contact
+          </button>
+        </div>
       </div>
-     </div>
-     <div className='contact_body'>
-        <p> <i className='bi bi-envelope'></i>{contact.email.substring(0,20)}</p>
-        <p> <i className='bi bi-geo'></i>{contact.address}</p>
-        <p> <i className='bi bi-telephone'></i>{contact.phone}</p>
-     </div>
-    </Link>
-  )
+
+      <div className="table-responsive">
+        <table className="table table-striped table-hover">
+          <thead className="table-dark">
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Phone</th>
+              <th className="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedContacts.map(contact => (
+              <tr key={contact.id}>
+                <td>{contact.firstName}</td>
+                <td>{contact.lastName}</td>
+                <td>{contact.phone}</td>
+                <td className="text-center">
+                  <button
+                    className="btn btn-sm btn-warning me-2"
+                    onClick={() => { setSelectedContact(contact); setShowForm(true); }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => { setSelectedContact(contact); setShowDelete(true); }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <Pagination
+        total={filteredContacts.length}
+        perPage={itemsPerPage}
+        current={currentPage}
+        onChange={setCurrentPage}
+      />
+
+      {showForm && (
+        <ContactForm
+          contact={selectedContact}
+          onSave={saveContact}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
+
+      {showDelete && (
+        <ConfirmModal
+          onConfirm={() => {
+            setContacts(contacts.filter(c => c.id !== selectedContact.id));
+            setShowDelete(false);
+          }}
+          onCancel={() => setShowDelete(false)}
+        />
+      )}
+    </div>
+  );
 }
 
-export default Contact
+export default Contacts;
