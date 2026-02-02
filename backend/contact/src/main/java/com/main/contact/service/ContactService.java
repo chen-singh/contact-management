@@ -1,7 +1,6 @@
 package com.main.contact.service;
 
-import com.main.contact.entity.Contact;
-import com.main.contact.repository.CrudRepository;
+import com.main.contact.repository.ContactRepository;
 import com.main.contact.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,13 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.main.contact.model.Contact;
 
 import java.util.Optional;
 
 @Service
 public class ContactService {
     @Autowired
-    private CrudRepository crudRepository;
+    private ContactRepository crudRepository;
 
     @Autowired
     private UserRepository userrepo;

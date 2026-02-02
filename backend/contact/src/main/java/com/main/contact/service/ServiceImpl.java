@@ -1,7 +1,7 @@
 package com.main.contact.service;
 
-import com.main.contact.entity.User;
-import com.main.contact.repository.CrudRepository;
+import com.main.contact.model.User;
+import com.main.contact.repository.ContactRepository;
 import com.main.contact.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServiceImpl {
     @Autowired
-    private CrudRepository crudRepository;
+    private ContactRepository crudRepository;
 
     @Autowired
     private UserRepository userrepo;

@@ -1,7 +1,7 @@
 package com.main.contact.service;
 
-import com.main.contact.entity.User;
-import com.main.contact.entity.UserPrincipal;
+import com.main.contact.model.User;
+import com.main.contact.model.UserPrincipal;
 import com.main.contact.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

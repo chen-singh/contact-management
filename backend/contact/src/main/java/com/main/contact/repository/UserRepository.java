@@ -1,6 +1,6 @@
 package com.main.contact.repository;
 
-import com.main.contact.entity.User;
+import com.main.contact.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

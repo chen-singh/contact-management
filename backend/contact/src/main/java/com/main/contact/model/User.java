@@ -1,4 +1,4 @@
-package com.main.contact.entity;
+package com.main.contact.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

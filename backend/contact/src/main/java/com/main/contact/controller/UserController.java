@@ -2,8 +2,7 @@
 package com.main.contact.controller;
 import com.main.contact.Dtos.AuthRequest;
 import com.main.contact.Dtos.AuthResponse;
-import com.main.contact.config.JwtFilter;
-import com.main.contact.entity.User;
+import com.main.contact.model.User;
 import com.main.contact.repository.UserRepository;
 import com.main.contact.service.JWTAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +75,37 @@ public class UserController {
     @Autowired
     private JWTAuthentication jwtauth;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
 
-        User user = userRepository.findByUsername(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody AuthRequest request) {
+
+        if (userRepository.findByUsername(request.getEmail())!=null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Username already exists");
+        }
+
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok("User registered successfully");
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthRequest request , User user) {
+
+
+        try {
+            user = userRepository.findByUsername(request.getEmail());
+            throw new RuntimeException("User not registered due to some error");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//    .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
