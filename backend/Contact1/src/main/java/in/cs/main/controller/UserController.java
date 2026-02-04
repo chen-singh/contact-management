@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 public class UserController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody AuthRequest request) {
 
-        if (userRepository.findByEmail(request.getEmail())!=null) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             return ResponseEntity
                     .badRequest()
                     .body("Username already exists");
