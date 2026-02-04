@@ -5,6 +5,7 @@ import Register from "./components/Register";
 import Contacts from "./components/Contact";
 import UserProfile from "./components/UProfile";
 import Navbar from "./components/Navbar";
+import ProtectedRoute from "./auth/protectedroute";
 
 function App() {
   const isLoggedIn = !!localStorage.getItem("user");
@@ -15,7 +16,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/contacts" element={
+          <ProtectedRoute>
+            <Contacts />
+          </ProtectedRoute>} />
         <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </BrowserRouter>
