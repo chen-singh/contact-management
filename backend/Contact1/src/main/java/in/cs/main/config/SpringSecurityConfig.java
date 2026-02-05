@@ -8,37 +8,89 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
+    
+        @Autowired
+        private JwtFilter jwtFilter;
 
         @Autowired
         private UserDetailsServiceImpl userDetailsService;
 
-        @Autowired
-        private JwtFilter jwtFilter;
-
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-            return http.csrf(customizer -> customizer.disable()).
-                    authorizeHttpRequests(request -> request
+            http
+                    .csrf(csrf -> csrf.disable())
+                    .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                    .authenticationProvider(authenticationProvider())
+                    .authorizeHttpRequests(auth -> auth
                             .requestMatchers("/auth/**").permitAll()
-                            .anyRequest().authenticated()).
-//                httpBasic(Customizer.withDefaults()).
-        sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .addFilterBefore(jwtFilter , UsernamePasswordAuthenticationFilter.class)
-                    .build();
+                            .anyRequest().authenticated()
+                    )
+                    .sessionManagement(session ->
+                            session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    )
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-
+            return http.build();
         }
+
+
+
+        // ✅ Password Encoder
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+
+        // ✅ CORS (REQUIRED for React)
+        @Bean
+        public CorsConfigurationSource corsConfigurationSource() {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedOrigins(List.of("http://localhost:3000")); // React
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            config.setAllowedHeaders(List.of("*"));
+            config.setAllowCredentials(true);
+
+            UrlBasedCorsConfigurationSource source =
+                    new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/**", config);
+            return source;
+        }
+    }
+
+
+
+//        @Bean
+//        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//            return http.csrf(AbstractHttpConfigurer::disable)
+//
+//                    .authorizeHttpRequests(request -> request
+//                            .requestMatchers("/auth/**").permitAll()
+//                            .anyRequest().authenticated()).
+////                httpBasic(Customizer.withDefaults()).
+//        sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                    .addFilterBefore(jwtFilter , UsernamePasswordAuthenticationFilter.class)
+//                    .build();
+//
+//
+//        }
 
 
 
