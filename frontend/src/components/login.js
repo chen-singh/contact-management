@@ -7,17 +7,12 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // save user in localStorage (mock login)
-
-  //   localStorage.setItem("user", JSON.stringify({ name: "John Doe", email }));
-  //   navigate("/contacts");
-  // };
- const login = async () => {
+  
+ const login = async (e) => {
+    e.preventDefault();
     const res = await api.post("/auth/login", { email, password });
     localStorage.setItem("token", res.data.token);
-    window.location.href = "/Contact";
+   navigate("/Contacts");
   };
   return (
     <div className="container mt-5">
