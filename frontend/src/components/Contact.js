@@ -108,7 +108,7 @@ function Contacts() {
 
   const fetchContacts = async () => {
     try {
-      const res = await api.get("/contacts"); // JWT sent automatically
+      const res = await api.get("/contact"); // JWT sent automatically
       setContacts(res.data);
     } catch (err) {
       console.error("Failed to load contacts", err);

@@ -49,6 +49,26 @@ public class JwtUtil {
                 .signWith(getKey(), Jwts.SIG.HS256)
                 .compact();
     }
+    public String generateAccessToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .claim("type", "access")
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 15 * 60 * 1000))
+                .signWith(getKey(), Jwts.SIG.HS256)
+                .compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .claim("type", "refresh")
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 7L * 24 * 60 * 60 * 1000))
+                .signWith(getKey(), Jwts.SIG.HS256)
+                .compact();
+    }
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

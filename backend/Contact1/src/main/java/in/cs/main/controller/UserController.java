@@ -35,7 +35,8 @@ public class UserController {
     @Autowired
     private JwtUtil jwtauth;
 
-    AuthenticationManager authenticationManager;
+     @Autowired
+     private AuthenticationManager authenticationManager;
 
 
     @PostMapping("/register")
@@ -70,7 +71,7 @@ public class UserController {
 //        String token = jwtauth.generateToken(user.getEmail());
 //        return ResponseEntity.ok(new AuthResponse(token));
 //    }
-@PostMapping("/auth/login")
+@PostMapping("/login")
 public ResponseEntity<?> login(@RequestBody AuthRequest request) {
 
     Authentication auth = authenticationManager.authenticate(
@@ -80,13 +81,13 @@ public ResponseEntity<?> login(@RequestBody AuthRequest request) {
             )
     );
 
-    String accessToken = jwtauth.generateToken(request.getEmail());
-    String refreshToken = jwtauth.generateToken(request.getEmail());
+    String accessToken = jwtauth.generateAccessToken(request.getEmail());
+    String refreshToken = jwtauth.generateRefreshToken(request.getEmail());
 
     ResponseCookie accessCookie = ResponseCookie.from("accessToken", accessToken)
             .httpOnly(true)
             .secure(false)
-            .sameSite("Strict")
+            .sameSite("Lax")
             .path("/")
             .maxAge(15 * 60)
             .build();
@@ -94,7 +95,7 @@ public ResponseEntity<?> login(@RequestBody AuthRequest request) {
     ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", refreshToken)
             .httpOnly(true)
             .secure(false)
-            .sameSite("Strict")
+            .sameSite("Lax")
             .path("/")
             .maxAge(7 * 24 * 60 * 60)
             .build();
@@ -105,7 +106,7 @@ public ResponseEntity<?> login(@RequestBody AuthRequest request) {
             .body("Login successful");
 }
 
-    @PostMapping("/auth/refresh")
+    @PostMapping("/refresh")
     public ResponseEntity<?> refresh(HttpServletRequest request) {
 
         String refreshToken = Arrays.stream(request.getCookies())
