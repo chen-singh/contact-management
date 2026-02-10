@@ -141,6 +141,7 @@
 
 
 package  in.cs.main.controller;
+import in.cs.main.dto.AuthRequest;
 import in.cs.main.entities.UserPrincipal;
 import in.cs.main.service.UserDetailsServiceImpl;
 import in.cs.main.util.JwtUtil;
@@ -163,15 +164,15 @@ public class UserController {
     private final JwtUtil jwtService;
   private UserDetailsServiceImpl userDetailsService;
 
-    private UserPrincipal userDetails;
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request, HttpServletResponse response) {
         authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
 
         String accessToken = jwtService.generateAccessToken(userDetails.getUsername());
         String refreshToken = jwtService.generateRefreshToken(userDetails.getUsername());
@@ -194,27 +195,36 @@ public class UserController {
         return ResponseEntity.ok("Login successful");
     }
 
+
+
+
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
-        if (jwtService.isTokenValid(refreshToken, userDetails)) {
-            String username = jwtService.extractUsername(refreshToken);
-            String newAccessToken = jwtService.generateAccessToken(username);
+    public ResponseEntity<?> refresh(
+            @CookieValue("refresh_token") String refreshToken,
+            HttpServletResponse response) {
 
-            ResponseCookie accessCookie = ResponseCookie.from("access_token", newAccessToken)
-                    .httpOnly(true)
-                    .path("/")
-                    .maxAge(15 * 60)
-                    .build();
+        String username = jwtService.extractUsername(refreshToken);
 
-            response.addHeader("Set-Cookie", accessCookie.toString());
-            return ResponseEntity.ok("Access token refreshed");
+        UserDetails userDetails =
+                userDetailsService.loadUserByUsername(username);
+
+        if (!jwtService.isTokenValid(refreshToken, userDetails)) {
+            return ResponseEntity.status(401).body("Invalid refresh token");
         }
-        return ResponseEntity.status(401).body("Invalid refresh token");
+
+        String newAccessToken =
+                jwtService.generateAccessToken(username);
+
+        ResponseCookie accessCookie = ResponseCookie.from("access_token", newAccessToken)
+                .httpOnly(true)
+                .path("/")
+                .maxAge(15 * 60)
+                .build();
+
+        response.addHeader("Set-Cookie", accessCookie.toString());
+
+        return ResponseEntity.ok("Access token refreshed");
     }
 
-    @Data
-    static class AuthRequest {
-        private String username;
-        private String password;
-    }
+
 }
