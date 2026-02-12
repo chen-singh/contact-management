@@ -69,3 +69,47 @@
 // }
 
 // export default Login;
+
+import React, { useState, useContext } from "react";
+import { loginUser } from "../service/authService";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
+const Login = () => {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await loginUser(form);
+      login(res.data.token);
+      navigate("/dashboard");
+    } catch (err) {
+      alert("Invalid credentials");
+    }
+  };
+
+  return (
+    <div className="container mt-5">
+      <h3>Login</h3>
+      <form onSubmit={handleSubmit}>
+        <input
+          className="form-control mb-3"
+          placeholder="Email"
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+        <input
+          type="password"
+          className="form-control mb-3"
+          placeholder="Password"
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+        />
+        <button className="btn btn-primary">Login</button>
+      </form>
+    </div>
+  );
+};
+
+export default Login;

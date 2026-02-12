@@ -54,3 +54,49 @@
 // }
 
 // export default Register;
+
+import React, { useState } from "react";
+import { registerUser } from "../service/authService";
+import { useNavigate } from "react-router-dom";
+
+const RegisterPage = () => {
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await registerUser(form);
+      alert("Registration successful!");
+      navigate("/login");
+    } catch (err) {
+      alert("Registration failed");
+    }
+  };
+
+  return (
+    <div className="container mt-5">
+      <h3>Register</h3>
+      <form onSubmit={handleSubmit}>
+        <input className="form-control mb-2" placeholder="First Name"
+          onChange={(e) => setForm({ ...form, firstName: e.target.value })} />
+        <input className="form-control mb-2" placeholder="Last Name"
+          onChange={(e) => setForm({ ...form, lastName: e.target.value })} />
+        <input className="form-control mb-2" placeholder="Email"
+          onChange={(e) => setForm({ ...form, email: e.target.value })} />
+        <input type="password" className="form-control mb-2"
+          placeholder="Password"
+          onChange={(e) => setForm({ ...form, password: e.target.value })} />
+        <button className="btn btn-success">Register</button>
+      </form>
+    </div>
+  );
+};
+
+export default RegisterPage;
