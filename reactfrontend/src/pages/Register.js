@@ -59,7 +59,7 @@ import React, { useState } from "react";
 import { registerUser } from "../service/authService";
 import { useNavigate } from "react-router-dom";
 
-const RegisterPage = () => {
+const Register = () => {
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -99,4 +99,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default Register;
