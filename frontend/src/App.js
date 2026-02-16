@@ -2,10 +2,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/Register";
-import Contacts from "./components/Contact";
+
 import UserProfile from "./components/UProfile";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./auth/protectedroute";
+import ContactManagement from "./components/Contact";
+
 
 function App() {
   const isLoggedIn = !!localStorage.getItem("user");
@@ -16,11 +18,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/contacts" element={
+        {/* <Route path="/contact" element={
           <ProtectedRoute>
-            <Contacts />
-          </ProtectedRoute>} />
+            <ContactManagement />
+          </ProtectedRoute>} /> */}
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/contact" element={<ContactManagement/>}/>
       </Routes>
     </BrowserRouter>
   );

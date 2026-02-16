@@ -77,16 +77,25 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const login = async (e) => {
+  // const login = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await api.post("/auth/login", { email, password }, { withCredentials: true });
+  //     navigate("/contacts");
+  //   } catch (err) {
+  //     alert(err.response?.data || "Login failed");
+  //   }
+  // };
+ const login = (e) => {
     e.preventDefault();
-    try {
-      await api.post("/auth/login", { email, password }, { withCredentials: true });
-      navigate("/contacts");
-    } catch (err) {
-      alert(err.response?.data || "Login failed");
+
+
+    if (email && password) {
+      navigate("/contact");
+    } else {
+      alert("Please enter email and password");
     }
   };
-
   return (
     <div className="auth-wrapper">
       <form className="auth-card" onSubmit={login}>

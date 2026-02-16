@@ -29,7 +29,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Header";
 import { changePassword } from "../service/authService";
 
-const ProfilePage = () => {
+const Profile = () => {
   const [form, setForm] = useState({
     oldPassword: "",
     newPassword: "",
@@ -66,4 +66,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default Profile;
