@@ -5,7 +5,7 @@ import Register from "./components/Register";
 
 import UserProfile from "./components/UProfile";
 import Navbar from "./components/Navbar";
-import ProtectedRoute from "./auth/protectedroute";
+
 import ContactManagement from "./components/Contact";
 
 
