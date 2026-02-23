@@ -1,4 +1,4 @@
-/* ===== NAVBAR BACKGROUND ===== */
+
 .custom-navbar {
   background: linear-gradient(135deg, #1f2937, #111827);
   backdrop-filter: blur(10px);
@@ -6,7 +6,7 @@
   padding: 14px 0;
 }
 
-/* ===== BRAND ===== */
+
 .custom-brand {
   font-size: 1.4rem;
   font-weight: bold;
@@ -19,13 +19,13 @@
   color: #d1d5db !important;
 }
 
-/* ===== TOGGLER ===== */
+
 .custom-toggler {
   border: none;
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* ===== PROFILE BUTTON ===== */
+
 .profile-btn {
   padding: 6px 18px;
   border-radius: 25px;
@@ -41,7 +41,7 @@
   transform: translateY(-2px);
 }
 
-/* ===== LOGOUT BUTTON ===== */
+
 .logout-btn {
   padding: 6px 18px;
   border-radius: 25px;
@@ -58,7 +58,7 @@
   box-shadow: 0 6px 16px rgba(220, 38, 38, 0.6);
 }
 
-/* ===== MOBILE ADJUSTMENTS ===== */
+
 @media (max-width: 991px) {
   .profile-btn,
   .logout-btn {

@@ -18,10 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* <Route path="/contact" element={
-          <ProtectedRoute>
-            <ContactManagement />
-          </ProtectedRoute>} /> */}
+        
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/contact" element={<ContactManagement/>}/>
       </Routes>

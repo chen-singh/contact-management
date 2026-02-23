@@ -15,10 +15,10 @@ function Navbar() {
 
         {/* Brand */}
         <Link className="navbar-brand custom-brand" to="/contacts">
-          📇 Contact Manager
+           Contact Manager
         </Link>
 
-        {/* Mobile Toggle */}
+       
         <button
           className="navbar-toggler custom-toggler"
           type="button"
@@ -28,7 +28,7 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Right Side */}
+    
         <div
           className="collapse navbar-collapse justify-content-end"
           id="navbarContent"
@@ -37,7 +37,7 @@ function Navbar() {
 
             <Link to="/profile" className="text-decoration-none">
               <button className="profile-btn">
-                👤 Profile
+                 Profile
               </button>
             </Link>
 
@@ -45,7 +45,7 @@ function Navbar() {
               onClick={handleLogout}
               className="logout-btn"
             >
-              🔐 Logout
+               Logout
             </button>
 
           </div>

@@ -33,7 +33,7 @@ const Modal = ({ title, children, show, onClose, footer }) => {
           borderRadius:"5%",
           padding:"5px"
 
-        }}
+        }} 
       >
         <div className="modal-content">
           <div className="modal-header">
