@@ -74,7 +74,7 @@ import java.util.stream.Collectors;
 public class ContactService  {
 
     @Autowired
-    private final ContactRepository repository;
+    private ContactRepository repository;
 
 
     public ContactResponsedto create(ContactRequestdto dto) {

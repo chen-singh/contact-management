@@ -18,7 +18,7 @@ import java.util.Map;
 public class JWTService {
 
 
-    private String secretkey = "";
+    private String secretkey = "your-256-bit-secret-key-goes-here";
 
     public JWTService() {
 

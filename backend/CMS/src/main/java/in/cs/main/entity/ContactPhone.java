@@ -1,32 +1,4 @@
 package in.cs.main.entity;
-//
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.JoinColumn;
-//import jakarta.persistence.ManyToOne;
-//import jakarta.persistence.Table;
-//import lombok.Getter;
-//import lombok.Setter;
-//
-//@Entity
-//@Table(name = "phone_numbers")
-//@Getter @Setter
-//public class PhoneNumber {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-//
-//    private String label;
-//    private String number;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "contact_id")
-//    private Contact contact;
-//}
-//
 
 
 import jakarta.persistence.*;
