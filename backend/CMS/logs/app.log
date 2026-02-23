@@ -312,3 +312,7 @@ Caused by: java.lang.Error: Unresolved compilation problems:
 2026-02-23T08:59:01.473+04:00  WARN 5444 --- [CMS] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2026-02-23T08:59:02.244+04:00  INFO 5444 --- [CMS] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
 2026-02-23T08:59:02.253+04:00  INFO 5444 --- [CMS] [main] in.cs.main.CmsApplication                : Started CmsApplication in 7.325 seconds (process running for 7.872)
+2026-02-23T09:02:06.494+04:00  INFO 5444 --- [CMS] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-23T09:02:06.496+04:00  INFO 5444 --- [CMS] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-23T09:02:06.500+04:00  INFO 5444 --- [CMS] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-02-23T09:08:46.827+04:00  WARN 5444 --- [CMS] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m17s674ms828µs900ns).
