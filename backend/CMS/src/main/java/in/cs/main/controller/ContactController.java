@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/contacts")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RequiredArgsConstructor
 public class ContactController {
 
@@ -32,17 +33,22 @@ public class ContactController {
     public ContactResponsedto getById(@PathVariable Integer id) {
         return service.getById(id);
     }
+//
+//    @GetMapping
+//    public List<ContactResponsedto> getAll() {
+//        return service.getAll();
+//    }
 
     @GetMapping
-    public List<ContactResponsedto> getAll() {
-        return service.getAll();
+    public Page<ContactResponsedto> getAll(Pageable pageable) {
+        return service.getAll(pageable);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Integer id) {
         service.delete(id);
     }
-    @GetMapping("/filter")
+    @GetMapping("/search")
     public Page<ContactResponsedto> filter(
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName,

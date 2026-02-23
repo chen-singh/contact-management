@@ -316,3 +316,9 @@ Caused by: java.lang.Error: Unresolved compilation problems:
 2026-02-23T09:02:06.496+04:00  INFO 5444 --- [CMS] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-02-23T09:02:06.500+04:00  INFO 5444 --- [CMS] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
 2026-02-23T09:08:46.827+04:00  WARN 5444 --- [CMS] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m17s674ms828µs900ns).
+2026-02-23T09:22:19.960+04:00  WARN 5444 --- [CMS] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m2s917ms389µs700ns).
+2026-02-23T09:42:56.243+04:00  INFO 5444 --- [CMS] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-23T09:42:56.278+04:00  INFO 5444 --- [CMS] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-02-23T09:42:56.311+04:00  INFO 5444 --- [CMS] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-23T09:42:56.353+04:00  INFO 5444 --- [CMS] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-23T09:42:56.382+04:00  INFO 5444 --- [CMS] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
