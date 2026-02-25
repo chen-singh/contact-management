@@ -199,3 +199,6 @@ Caused by: java.lang.IllegalAccessException: class io.jsonwebtoken.impl.lang.Opt
 2026-02-25T09:27:13.377+04:00  INFO 4452 --- [CMS] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2026-02-25T09:27:13.378+04:00  INFO 4452 --- [CMS] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2026-02-25T09:27:13.381+04:00  INFO 4452 --- [CMS] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-02-25T09:45:44.551+04:00  WARN 4452 --- [CMS] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m40s531ms630µs401ns).
+2026-02-25T10:04:28.079+04:00  WARN 4452 --- [CMS] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m59s455ms494µs800ns).
+2026-02-25T10:17:20.486+04:00  WARN 4452 --- [CMS] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=6m52s295ms336µs399ns).
