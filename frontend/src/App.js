@@ -38,11 +38,11 @@ import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
-  const isLoggedIn = !!localStorage.getItem("user"); // check token instead of "user"
+
 
   return (
     <BrowserRouter>
-      {isLoggedIn && <Navbar />} {/* Navbar only if logged in */}
+     
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Login />} />
