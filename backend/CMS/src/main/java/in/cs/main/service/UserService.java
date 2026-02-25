@@ -34,4 +34,8 @@ public class UserService {
             return "fail";
         }
     }
+
+    public Users findByEmail(String email) {
+        return repo.findByEmail(email);
+    }
 }

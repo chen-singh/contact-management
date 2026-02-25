@@ -9,17 +9,31 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const login = async (e) => {
+   e.preventDefault();
 
- const login = (e) => {
-    e.preventDefault();
+  try {
+    const response = await api.post("/auth/login", {
+      email: email,
+      password: password
+    });
+
+    const token = response.data.token;
+    localStorage.setItem("token", token);
+    // if(response.data.user) {
+    // localStorage.setItem("user", JSON.stringify(response.data.user));
+    // }
+
+    // Navigate after successful login
+    navigate("/contact");
+
+  } catch (error) {
+    console.error(error);
+    alert("Invalid email or password");
+  }
+};
 
 
-    if (email && password) {
-      navigate("/contact");
-    } else {
-      alert("Please enter email and password");
-    }
-  };
   return (
     <div className="auth-wrapper">
       <form className="auth-card" onSubmit={login}>
