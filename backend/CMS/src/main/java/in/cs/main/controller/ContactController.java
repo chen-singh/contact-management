@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/contacts")
@@ -33,11 +32,7 @@ public class ContactController {
     public ContactResponsedto getById(@PathVariable Integer id) {
         return service.getById(id);
     }
-//
-//    @GetMapping
-//    public List<ContactResponsedto> getAll() {
-//        return service.getAll();
-//    }
+
 
     @GetMapping
     public Page<ContactResponsedto> getAll(Pageable pageable) {

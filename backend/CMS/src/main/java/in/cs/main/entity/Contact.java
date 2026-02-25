@@ -50,5 +50,5 @@ public class Contact {
         updatedAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
+
 }

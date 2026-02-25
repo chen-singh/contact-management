@@ -1,52 +1,74 @@
 package in.cs.main.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Service;
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-@Service
+@Component
 public class JWTService {
 
+    private static final String SECRET =
+            "my-super-secure-256-bit-secret-key-change-this!!";
 
-    private String secretkey = "your-256-bit-secret-key-goes-here";
+    private SecretKey key;
 
-    public JWTService() {
 
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60;
+
+    @PostConstruct
+    public void init() {
+
+        key = Keys.hmacShaKeyFor(
+                SECRET.getBytes(StandardCharsets.UTF_8)
+        );
+    }
+
+
+    public String generateToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .signWith(key)
+                .compact();
+    }
+
+
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
+    }
+
+
+    public boolean validateToken(String token, String username) {
         try {
-            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey sk = keyGen.generateKey();
-            secretkey = Base64.getEncoder().encodeToString(sk.getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            String extractedUsername = extractUsername(token);
+            return extractedUsername.equals(username)
+                    && !isTokenExpired(token);
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
         }
     }
 
-    public String generateToken(String username) {
-        Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))
-                .and()
-                .signWith(getKey())
-                .compact();
 
+    public boolean isTokenExpired(String token) {
+        return extractAllClaims(token)
+                .getExpiration()
+                .before(new Date());
     }
 
-    private Key getKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretkey);
-        return Keys.hmacShaKeyFor(keyBytes);
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

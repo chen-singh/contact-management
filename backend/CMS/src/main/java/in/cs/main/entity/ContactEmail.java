@@ -27,5 +27,5 @@ public class ContactEmail {
     @JoinColumn(name = "contact_id", nullable = false)
     private Contact contact;
 
-    // Getters and Setters
+
 }
