@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -46,16 +47,20 @@ public class JWTService {
     }
 
 
-    public boolean validateToken(String token, String username) {
-        try {
-            String extractedUsername = extractUsername(token);
-            return extractedUsername.equals(username)
-                    && !isTokenExpired(token);
-        } catch (JwtException | IllegalArgumentException e) {
-            return false;
-        }
-    }
-
+//    public boolean validateToken(String token, String username) {
+//        try {
+//            String extractedUsername = extractUsername(token);
+//            return extractedUsername.equals(username)
+//                    && !isTokenExpired(token);
+//        } catch (JwtException | IllegalArgumentException e) {
+//            return false;
+//        }
+//    }
+public boolean validateToken(String token, UserDetails userDetails) {
+    final String extractedUsername = extractUsername(token);
+    return extractedUsername.equals(userDetails.getUsername())
+            && !isTokenExpired(token);
+}
 
     public boolean isTokenExpired(String token) {
         return extractAllClaims(token)
