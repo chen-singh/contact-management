@@ -35,7 +35,10 @@ public class UserService {
         }
     }
 
-    public Users findByEmail(String email) {
+
+
+
+    public Users findByEmail(String email ) {
         return repo.findByEmail(email);
     }
 }

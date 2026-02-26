@@ -1,11 +1,12 @@
 
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api/apiaxious";
+
 import Modal from "./Modal";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:8080/api/contacts";
+
 
 const initialFormState = {
   contactId: null,
@@ -34,8 +35,13 @@ const ContactManagement = () => {
 
   const fetchContacts = async (page = currentPage) => {
     try {
-      const response = await axios.get(API_URL, {
+       const token = localStorage.getItem("token");
+      const response = await api.get("/contacts", {
         params: { page: page - 1, size: pageSize },
+        headers: {
+      Authorization: `Bearer ${token}`,
+    },
+        
       });
 
       console.log("API response:", response.data); 
@@ -67,6 +73,51 @@ const ContactManagement = () => {
     }
   };
 
+// const fetchContacts = async (page = currentPage) => {
+//   try {
+//     // const response = await api.get("/api/contacts", {
+//     //   params: { page: page - 1, size: pageSize },
+//     // });
+//      const token = localStorage.getItem("token");
+
+// const response = await api.get(
+//   "http://localhost:8080/api/contacts?page=0&size=5",
+//   {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   }
+// );
+
+//     let contactsArray = [];
+//     let pages = 1;
+
+//     if (Array.isArray(response.data)) {
+//       contactsArray = response.data;
+//       pages = 1;
+//     } else if (Array.isArray(response.data.content)) {
+//       contactsArray = response.data.content;
+//       pages =
+//         typeof response.data.totalPages === "number" &&
+//         response.data.totalPages > 0
+//           ? response.data.totalPages
+//           : 1;
+//     }
+
+//     setContacts(contactsArray);
+//     setTotalPages(pages);
+//     setCurrentPage(page);
+//   } catch (error) {
+//     console.error("Error fetching contacts:", error);
+
+//     if (error.response?.status === 403) {
+//       handleLogout(); // token invalid or expired
+//     }
+
+//     setContacts([]);
+//     setTotalPages(1);
+//   }
+// };
   useEffect(() => {
     fetchContacts();
   }, []);
@@ -82,10 +133,17 @@ const ContactManagement = () => {
     }
 
     try {
-      const response = await axios.get(`${API_URL}/search`, {
-        params: { firstName: value, lastName: value, page: 0, size: pageSize },
-      });
-
+      // const response = await axios.get(`${API_URL}/search`, {
+      //   params: { firstName: value, lastName: value, page: 0, size: pageSize },
+      // });
+     
+         const token = localStorage.getItem("token");
+      const response = await api.get("/contacts/search", {
+  params: { firstName: value, lastName: value, page: 0, size: pageSize },
+   headers: {
+      Authorization: `Bearer ${token}`,
+    },
+});
       let contactsArray = [];
       let pages = 1;
 
@@ -132,7 +190,7 @@ const ContactManagement = () => {
     };
 
     try {
-      await axios.post(API_URL, payload);
+      await api.post("/contacts", payload);
       setShowCreate(false);
       setFormData(initialFormState);
       fetchContacts(1); 
@@ -171,7 +229,9 @@ const ContactManagement = () => {
     };
 
     try {
-      await axios.put(`${API_URL}/${formData.contactId}`, payload);
+      await api.put(`/contacts/${formData.contactId}`, payload
+        
+      );
       setShowUpdate(false);
       fetchContacts(currentPage); 
     } catch (error) {
@@ -188,7 +248,7 @@ const ContactManagement = () => {
   const handleDelete = async () => {
     if (!selectedContact) return;
     try {
-      await axios.delete(`${API_URL}/${selectedContact.contactId}`);
+      await api.delete(`/contacts/${selectedContact.contactId}`);
       setShowDelete(false);
       
       if (contacts.length === 1 && currentPage > 1) {

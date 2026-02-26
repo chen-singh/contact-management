@@ -62,7 +62,7 @@ public class UserController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             Users user = service.findByEmail(loginRequest.getEmail()); // fetch user info
-            String token = jwtService.generateToken(String.valueOf(authentication));
+            String token = jwtService.generateToken(user.getEmail());
 
 
             Map<String, Object> response = new HashMap<>();
