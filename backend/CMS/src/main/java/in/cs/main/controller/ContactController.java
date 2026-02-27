@@ -43,15 +43,20 @@ public class ContactController {
     public void delete(@PathVariable Integer id) {
         service.delete(id);
     }
+
+
     @GetMapping("/search")
-    public Page<ContactResponsedto> filter(
-            @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String lastName,
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String phone,
+    public Page<ContactResponsedto> search(
+            @RequestParam String keyword,
             Pageable pageable) {
 
-        return service.filter(firstName, lastName, email, phone, pageable);
+        return service.search(keyword, pageable);
     }
+    @PutMapping("/{id}")
+    public ContactResponsedto update(
+            @PathVariable Integer id,
+            @RequestBody ContactRequestdto dto) {
 
+        return service.update(id, dto);
+    }
 }

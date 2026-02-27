@@ -1,7 +1,10 @@
 package in.cs.main.repository;
 
+import in.cs.main.dto.ContactResponsedto;
 import in.cs.main.entity.ContactEmail;
 import in.cs.main.entity.ContactPhone;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import in.cs.main.entity.Contact;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -30,8 +33,20 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> , Jpa
     WHERE p.phoneNumber LIKE CONCAT('%', :phone, '%')
 """)
     List<Contact> searchByFirstName(@Param("firstName") String phone);
+//    @Query("SELECT c FROM Contact c " +
+//            "WHERE (:firstName IS NULL OR LOWER(c.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) " +
+//            "OR (:lastName IS NULL OR LOWER(c.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))")
+//    Page<ContactResponsedto> filter(@Param("firstName") String firstName,
+//                                    @Param("lastName") String lastName,
+//                                    Pageable pageable);
 
-
+    @Query("""
+       SELECT c FROM Contact c
+       WHERE LOWER(c.firstName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+       OR LOWER(c.lastName) LIKE LOWER(CONCAT('%', :keyword, '%'))
+       """)
+    Page<Contact> search(@Param("keyword") String keyword,
+                         Pageable pageable);
 }
 
 @Repository

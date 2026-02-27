@@ -73,133 +73,89 @@ const ContactManagement = () => {
     }
   };
 
-// const fetchContacts = async (page = currentPage) => {
-//   try {
-//     // const response = await api.get("/api/contacts", {
-//     //   params: { page: page - 1, size: pageSize },
-//     // });
-//      const token = localStorage.getItem("token");
 
-// const response = await api.get(
-//   "http://localhost:8080/api/contacts?page=0&size=5",
-//   {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   }
-// );
 
-//     let contactsArray = [];
-//     let pages = 1;
-
-//     if (Array.isArray(response.data)) {
-//       contactsArray = response.data;
-//       pages = 1;
-//     } else if (Array.isArray(response.data.content)) {
-//       contactsArray = response.data.content;
-//       pages =
-//         typeof response.data.totalPages === "number" &&
-//         response.data.totalPages > 0
-//           ? response.data.totalPages
-//           : 1;
-//     }
-
-//     setContacts(contactsArray);
-//     setTotalPages(pages);
-//     setCurrentPage(page);
-//   } catch (error) {
-//     console.error("Error fetching contacts:", error);
-
-//     if (error.response?.status === 403) {
-//       handleLogout(); // token invalid or expired
-//     }
-
-//     setContacts([]);
-//     setTotalPages(1);
-//   }
-// };
   useEffect(() => {
     fetchContacts();
   }, []);
 
- 
-  const handleSearch = async (value) => {
-    setSearchTerm(value);
-    setCurrentPage(1);
-
-    if (!value.trim()) {
-      fetchContacts(1);
-      return;
-    }
-
-    try {
-      // const response = await axios.get(`${API_URL}/search`, {
-      //   params: { firstName: value, lastName: value, page: 0, size: pageSize },
-      // });
-     
-         const token = localStorage.getItem("token");
-      const response = await api.get("/contacts/search", {
-  params: { firstName: value, lastName: value, page: 0, size: pageSize },
-   headers: {
-      Authorization: `Bearer ${token}`,
-    },
-});
-      let contactsArray = [];
-      let pages = 1;
-
-      if (Array.isArray(response.data)) {
-        contactsArray = response.data;
-        pages = 1;
-      } else if (Array.isArray(response.data.content)) {
-        contactsArray = response.data.content;
-        pages =
-          typeof response.data.totalPages === "number" &&
-          response.data.totalPages > 0
-            ? response.data.totalPages
-            : 1;
-      }
-
-      setContacts(contactsArray);
-      setTotalPages(pages);
-    } catch (error) {
-      console.error("Search error:", error);
-      setContacts([]);
-      setTotalPages(1);
-    }
-  };
+      
 
 
+const handleSearch = async (value) => {
+  setSearchTerm(value);
+  setCurrentPage(1);
+
+  if (!value.trim()) {
+    fetchContacts(1);
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await api.get("/contacts/search", {
+      params: {
+        keyword: value,  
+        page: 0,
+        size: pageSize,
+      },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const contactsArray = response.data.content || [];
+    const pages = response.data.totalPages || 1;
+
+    setContacts(contactsArray);
+    setTotalPages(pages);
+
+  } catch (error) {
+    console.error("Search error:", error.response?.data || error.message);
+    setContacts([]);
+    setTotalPages(1);
+  }
+};
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
 
+
   const handleCreate = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const payload = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      title: "",
-      emails: [
-        { emailAddress: formData.email, emailType: "WORK", isPrimary: true },
-      ],
-      phones: [
-        { phoneNumber: formData.phone, phoneType: "MOBILE", isPrimary: true },
-      ],
-    };
+  const token = localStorage.getItem("token");
 
-    try {
-      await api.post("/contacts", payload);
-      setShowCreate(false);
-      setFormData(initialFormState);
-      fetchContacts(1); 
-    } catch (error) {
-      console.error("Create error:", error);
-    }
+  const payload = {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    title: "",
+    emails: [
+      { emailAddress: formData.email, emailType: "WORK", isPrimary: true },
+    ],
+    phones: [
+      { phoneNumber: formData.phone, phoneType: "MOBILE", isPrimary: true },
+    ],
   };
 
+  try {
+    await api.post("/contacts", payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setShowCreate(false);
+    setFormData(initialFormState);
+    fetchContacts(1);
+  } catch (error) {
+    console.error("Create error:", error.response?.data || error.message);
+  }
+};
  
+
   const openUpdateModal = (contact) => {
     setSelectedContact(contact);
     setFormData({
@@ -213,54 +169,67 @@ const ContactManagement = () => {
   };
 
  
-  const handleUpdate = async (e) => {
-    e.preventDefault();
 
-    const payload = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      title: "",
-      emails: [
-        { emailAddress: formData.email, emailType: "WORK", isPrimary: true },
-      ],
-      phones: [
-        { phoneNumber: formData.phone, phoneType: "MOBILE", isPrimary: true },
-      ],
-    };
+ const handleUpdate = async (e) => {
+  e.preventDefault();
 
-    try {
-      await api.put(`/contacts/${formData.contactId}`, payload
-        
-      );
-      setShowUpdate(false);
-      fetchContacts(currentPage); 
-    } catch (error) {
-      console.error("Update error:", error);
-    }
+  const token = localStorage.getItem("token");
+
+  const payload = {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    title: "",
+    emails: [
+      { emailAddress: formData.email, emailType: "WORK", isPrimary: true },
+    ],
+    phones: [
+      { phoneNumber: formData.phone, phoneType: "MOBILE", isPrimary: true },
+    ],
   };
 
- 
+  try {
+    await api.put(`/contacts/${formData.contactId}`, payload, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setShowUpdate(false);
+    fetchContacts(currentPage);
+  } catch (error) {
+    console.error("Update error:", error.response?.data || error.message);
+  }
+};
+
   const openDeleteModal = (contact) => {
     setSelectedContact(contact);
     setShowDelete(true);
   };
 
-  const handleDelete = async () => {
-    if (!selectedContact) return;
-    try {
-      await api.delete(`/contacts/${selectedContact.contactId}`);
-      setShowDelete(false);
-      
-      if (contacts.length === 1 && currentPage > 1) {
-        fetchContacts(currentPage - 1);
-      } else {
-        fetchContacts(currentPage);
-      }
-    } catch (error) {
-      console.error("Delete error:", error);
-    }
-  };
 
+  const handleDelete = async () => {
+  if (!selectedContact) return;
+
+  const token = localStorage.getItem("token");
+
+  try {
+    await api.delete(`/contacts/${selectedContact.contactId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setShowDelete(false);
+
+    if (contacts.length === 1 && currentPage > 1) {
+      fetchContacts(currentPage - 1);
+    } else {
+      fetchContacts(currentPage);
+    }
+  } catch (error) {
+    console.error("Delete error:", error.response?.data || error.message);
+  }
+};
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/");
@@ -275,7 +244,7 @@ const ContactManagement = () => {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Contact Management</h2>
         <div>
-          <button className="btn btn-outline-primary me-2" onClick={goToProfile}>
+          <button className="btn btn-primary me-2" onClick={goToProfile}>
             Profile
           </button>
           <button className="btn btn-outline-danger" onClick={handleLogout}>

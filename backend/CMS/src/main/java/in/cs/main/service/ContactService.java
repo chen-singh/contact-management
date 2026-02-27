@@ -54,6 +54,8 @@ package in.cs.main.service;
 import in.cs.main.dto.ContactRequestdto;
 import in.cs.main.dto.ContactResponsedto;
 import in.cs.main.entity.Contact;
+import in.cs.main.entity.ContactPhone;
+import in.cs.main.entity.ContactEmail;
 import in.cs.main.mapper.ContactMapper;
 import in.cs.main.mapper.ContactSpecification;
 import in.cs.main.repository.ContactRepository;
@@ -71,7 +73,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ContactService  {
+public class ContactService {
 
     @Autowired
     private ContactRepository repository;
@@ -97,6 +99,7 @@ public class ContactService  {
                 .map(ContactMapper::toDTO)
                 .collect(Collectors.toList());
     }
+
     public Page<ContactResponsedto> getAll(Pageable pageable) {
         return repository.findAll(pageable)
                 .map(ContactMapper::toDTO);
@@ -105,17 +108,89 @@ public class ContactService  {
     public void delete(Integer id) {
         repository.deleteById(id);
     }
-    public Page<ContactResponsedto> filter(
-            String firstName,
-            String lastName,
-            String email,
-            String phone,
-            Pageable pageable) {
 
-        Specification<Contact> spec =
-                ContactSpecification.filterBy(firstName, lastName, email, phone);
 
-        return repository.findAll(spec, pageable)
+    public Page<ContactResponsedto> search(String keyword, Pageable pageable) {
+        return repository.search(keyword, pageable)
                 .map(ContactMapper::toDTO);
+    }
+
+    public ContactResponsedto update(Integer id, ContactRequestdto dto) {
+
+        Contact existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Contact not found"));
+
+        existing.setFirstName(dto.firstName);
+        existing.setLastName(dto.lastName);
+        existing.setTitle(dto.title);
+
+        // Clear old emails & phones (IMPORTANT)
+        existing.getEmails().clear();
+        existing.getPhones().clear();
+
+        if (dto.emails != null) {
+            dto.emails.forEach(e -> {
+                ContactEmail email = new ContactEmail();
+                email.setEmailAddress(e.emailAddress);
+                email.setEmailType(e.emailType);
+                email.setIsPrimary(e.isPrimary);
+                email.setContact(existing);
+                existing.getEmails().add(email);
+            });
+        }
+
+        if (dto.phones != null) {
+            dto.phones.forEach(p -> {
+                ContactPhone phone = new ContactPhone();
+                phone.setPhoneNumber(p.phoneNumber);
+                phone.setPhoneType(p.phoneType);
+                phone.setIsPrimary(p.isPrimary);
+                phone.setContact(existing);
+                existing.getPhones().add(phone);
+            });
+        }
+
+        Contact saved = repository.save(existing);
+
+        return ContactMapper.toDTO(saved);
+//    }public ContactResponsedto update(Integer id, ContactRequestdto dto) {
+//
+//        Contact existing = repository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Contact not found"));
+//
+//        existing.setFirstName(dto.firstName);
+//        existing.setLastName(dto.lastName);
+//        existing.setTitle(dto.title);
+//
+//        // Clear old emails & phones (IMPORTANT)
+//        existing.getEmails().clear();
+//        existing.getPhones().clear();
+//
+//        if (dto.emails != null) {
+//            dto.emails.forEach(e -> {
+//                ContactEmail email = new ContactEmail();
+//                email.setEmailAddress(e.emailAddress);
+//                email.setEmailType(e.emailType);
+//                email.setIsPrimary(e.isPrimary);
+//                email.setContact(existing);
+//                existing.getEmails().add(email);
+//            });
+//        }
+//
+//        if (dto.phones != null) {
+//            dto.phones.forEach(p -> {
+//                ContactPhone phone = new ContactPhone();
+//                phone.setPhoneNumber(p.phoneNumber);
+//                phone.setPhoneType(p.phoneType);
+//                phone.setIsPrimary(p.isPrimary);
+//                phone.setContact(existing);
+//                existing.getPhones().add(phone);
+//            });
+//        }
+//
+//        Contact saved = repository.save(existing);
+//
+//        return ContactMapper.toDTO(saved);
+//    }
     }
 }
