@@ -4,8 +4,8 @@ import in.cs.main.entity.Users;
 import in.cs.main.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,20 +25,53 @@ public class UserService {
         return user;
     }
 
-    public String verify(Users user) {
-
-        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(user.getEmail());
-        } else {
-            return "fail";
-        }
-    }
+//    public String verify(Users user) {
+//
+//        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+//        if (authentication.isAuthenticated()) {
+//            return jwtService.generateToken(user.getEmail());
+//        } else {
+//            return "fail";
+//        }
+//    }
 
 
 
 
     public Users findByEmail(String email ) {
         return repo.findByEmail(email);
+    }
+
+    public Users getCurrentUser(Authentication authentication) {
+
+        String email = authentication.getName(); // usually email/username
+
+        Users user= repo.findByEmail(email);
+        if (user==null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
+
+    }
+
+
+    public Users updateCurrentUser(Users updatedUser,
+                                  Authentication authentication) {
+
+        String email = authentication.getName();
+
+        Users existingUser = repo.findByEmail(email);
+        if (existingUser==null){
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        // Update allowed fields only
+        existingUser.setName(updatedUser.getName());
+
+
+        // ⚠️ Only update email if your system allows it
+        existingUser.setEmail(updatedUser.getEmail());
+
+        return repo.save(existingUser);
     }
 }

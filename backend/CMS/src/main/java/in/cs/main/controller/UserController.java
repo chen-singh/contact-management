@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -29,20 +30,7 @@ public class UserController {
 
     private final   JWTService jwtService;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
-//
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
-//
-//        String token = jwtService.generateToken(request.getEmail());
-//
-//        return ResponseEntity.ok(Map.of("token", token));
-//    }
+
     @PostMapping("/register")
     public Users createUSer(@RequestBody Users user){
         return service.register(user);
@@ -61,7 +49,7 @@ public class UserController {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Users user = service.findByEmail(loginRequest.getEmail()); // fetch user info
+           Users user = service.findByEmail(loginRequest.getEmail()); // fetch user info
             String token = jwtService.generateToken(user.getEmail());
 
 
@@ -74,6 +62,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+    @GetMapping("/profile")
+    public Users getProfile(Authentication authentication) {
+        return service.getCurrentUser(authentication);
+    }
+
+    @PutMapping("/profile")
+    public Users updateProfile(@RequestBody Users updatedUser,
+                              Authentication authentication) {
+        return service.updateCurrentUser(updatedUser, authentication);
+    }
+    
 }
 
 

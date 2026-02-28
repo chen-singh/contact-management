@@ -32,7 +32,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./components/login";
 import Register from "./components/Register";
-import UserProfile from "./components/UProfile";
+import Profile from "./components/UProfile";
 import ContactManagement from "./components/Contact";
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
@@ -53,7 +53,7 @@ function App() {
           path="/profile" 
           element={
             <PrivateRoute>
-              <UserProfile />
+              <Profile />
             </PrivateRoute>
           } 
         />
