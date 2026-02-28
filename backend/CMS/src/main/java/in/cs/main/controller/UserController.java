@@ -1,6 +1,7 @@
 package in.cs.main.controller;
 
 import in.cs.main.dto.AuthRequest;
+import in.cs.main.dto.ChangePasswordRequest;
 import in.cs.main.entity.Users;
 import in.cs.main.service.JWTService;
 import in.cs.main.service.UserService;
@@ -72,7 +73,14 @@ public class UserController {
                               Authentication authentication) {
         return service.updateCurrentUser(updatedUser, authentication);
     }
-    
+    @PutMapping("/change-password")
+    public ResponseEntity<?> changePassword(
+            @RequestBody ChangePasswordRequest request,
+            Authentication authentication) {
+
+        service.changePassword(request.getNewPassword(), authentication);
+        return ResponseEntity.ok("Password updated successfully");
+    }
 }
 
 

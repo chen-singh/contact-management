@@ -222,7 +222,11 @@ function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const response = await api.get("/api/auth/profile");
+
+      const token = localStorage.getItem("token");
+      const response = await api.get("/auth/profile",{  headers: {
+           Authorization: `Bearer ${token}`,
+         },});
       setUser(response.data);
     } catch (error) {
       console.error("Profile fetch error:", error);
@@ -243,7 +247,10 @@ function Profile() {
     }
 
     try {
-      await api.put("/api/auth/change-password", {
+      const token = localStorage.getItem("token");
+      await api.put("/auth/change-password", {  headers: {
+           Authorization: `Bearer ${token}`,
+         },},{
         newPassword: newPassword,
       });
 

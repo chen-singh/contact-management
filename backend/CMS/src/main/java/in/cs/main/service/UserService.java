@@ -15,6 +15,7 @@ public class UserService {
     @Autowired
     private UserRepository repo;
 
+
      private JWTService jwtService;
     private AuthenticationManager authManager;
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
@@ -73,5 +74,20 @@ public class UserService {
         existingUser.setEmail(updatedUser.getEmail());
 
         return repo.save(existingUser);
+    }
+
+
+    public void changePassword(String newPassword, Authentication authentication) {
+
+        String email = authentication.getName();
+
+        Users user = repo.findByEmail(email);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        user.setPassword(encoder.encode(newPassword));
+        repo.save(user);
     }
 }
