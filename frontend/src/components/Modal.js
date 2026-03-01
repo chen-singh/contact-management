@@ -16,7 +16,7 @@ const Modal = ({ title, children, show, onClose, footer }) => {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           zIndex: 1040,
         }}
-        onClick={onClose} // close modal if backdrop clicked
+        onClick={onClose} 
       ></div>
 
       {/* Modal container */}

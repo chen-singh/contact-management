@@ -20,11 +20,7 @@ function Login() {
 
     const token = response.data.token;
     localStorage.setItem("token", token);
-    // if(response.data.user) {
-    // localStorage.setItem("user", JSON.stringify(response.data.user));
-    // }
-
-    // Navigate after successful login
+    
     navigate("/contact");
 
   } catch (error) {
