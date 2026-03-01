@@ -47,15 +47,7 @@ public class JWTService {
     }
 
 
-//    public boolean validateToken(String token, String username) {
-//        try {
-//            String extractedUsername = extractUsername(token);
-//            return extractedUsername.equals(username)
-//                    && !isTokenExpired(token);
-//        } catch (JwtException | IllegalArgumentException e) {
-//            return false;
-//        }
-//    }
+
 public boolean validateToken(String token, UserDetails userDetails) {
     final String extractedUsername = extractUsername(token);
     return extractedUsername.equals(userDetails.getUsername())

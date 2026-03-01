@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 
-
-
 @RestController
 @RequestMapping("/api/contacts")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
