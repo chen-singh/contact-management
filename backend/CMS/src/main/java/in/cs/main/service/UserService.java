@@ -26,15 +26,7 @@ public class UserService {
         return user;
     }
 
-//    public String verify(Users user) {
-//
-//        Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-//        if (authentication.isAuthenticated()) {
-//            return jwtService.generateToken(user.getEmail());
-//        } else {
-//            return "fail";
-//        }
-//    }
+
 
 
 
@@ -66,11 +58,11 @@ public class UserService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        // Update allowed fields only
+
         existingUser.setName(updatedUser.getName());
 
 
-        // ⚠️ Only update email if your system allows it
+
         existingUser.setEmail(updatedUser.getEmail());
 
         return repo.save(existingUser);
