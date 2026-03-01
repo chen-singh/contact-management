@@ -50,7 +50,7 @@ public class ContactSpecification {
                 return lastNamePredicate;
             }
 
-            
+
             return cb.conjunction();
         };
     }
