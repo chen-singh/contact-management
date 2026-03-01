@@ -241,13 +241,13 @@ const handleSearch = async (value) => {
 
   return (
     <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex bg-lightgray justify-content-between align-items-center mb-3 " >
         <h2>Contact Management</h2>
         <div>
           <button className="btn btn-primary me-2" onClick={goToProfile}>
             Profile
           </button>
-          <button className="btn btn-outline-danger" onClick={handleLogout}>
+          <button className="btn btn-secondary" onClick={handleLogout}>
             Logout
           </button>
         </div>
@@ -258,7 +258,7 @@ const handleSearch = async (value) => {
         <input
           type="text"
           className="form-control w-50"
-          placeholder="Search by first or last name"
+          placeholder="Search "
           value={searchTerm}
           onChange={(e) => handleSearch(e.target.value)}
         />
@@ -275,7 +275,7 @@ const handleSearch = async (value) => {
 
      
       <table className="table table-bordered table-striped">
-        <thead className="table-dark">
+        <thead className="table-secondary">
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
@@ -294,7 +294,7 @@ const handleSearch = async (value) => {
                 <td>{contact.phones?.[0]?.phoneNumber || "-"}</td>
                 <td>
                   <button
-                    className="btn btn-sm btn-warning me-2"
+                    className="btn btn-sm btn-primary me-2"
                     onClick={() => openUpdateModal(contact)}
                   >
                     Update
@@ -412,7 +412,7 @@ const handleSearch = async (value) => {
             <button className="btn btn-secondary" onClick={() => setShowUpdate(false)}>
               Cancel
             </button>
-            <button className="btn btn-warning" onClick={handleUpdate}>
+            <button className="btn btn-success" onClick={handleUpdate}>
               Save Changes
             </button>
           </>

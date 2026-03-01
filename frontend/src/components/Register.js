@@ -79,7 +79,7 @@ function Register() {
           <label>Password</label>
         </div>
 
-        <button className="btn btn-success btn-lg w-100 mb-3" type="submit">
+        <button className="btn btn-primary btn-lg w-100 mb-3" type="submit">
           Register
         </button>
 

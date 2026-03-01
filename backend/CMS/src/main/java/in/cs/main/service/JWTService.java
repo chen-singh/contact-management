@@ -21,7 +21,7 @@ public class JWTService {
     private SecretKey key;
 
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60;
+    private static final long EXPIRATION_TIME = 1000 * 60 * 15;
 
     @PostConstruct
     public void init() {
@@ -46,13 +46,22 @@ public class JWTService {
         return extractAllClaims(token).getSubject();
     }
 
+    public boolean validateToken(String token, UserDetails userDetails) {
+        try {
+            Claims claims = extractAllClaims(token);
+            String username = claims.getSubject();
+            return username.equals(userDetails.getUsername())
+                    && !claims.getExpiration().before(new Date());
+        } catch (JwtException e) {
+            return false;
+        }
+    }
 
-
-public boolean validateToken(String token, UserDetails userDetails) {
-    final String extractedUsername = extractUsername(token);
-    return extractedUsername.equals(userDetails.getUsername())
-            && !isTokenExpired(token);
-}
+//public boolean validateToken(String token, UserDetails userDetails) {
+//    final String extractedUsername = extractUsername(token);
+//    return extractedUsername.equals(userDetails.getUsername())
+//            && !isTokenExpired(token);
+//}
 
     public boolean isTokenExpired(String token) {
         return extractAllClaims(token)
