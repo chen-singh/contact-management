@@ -33,12 +33,6 @@ public interface ContactRepository extends JpaRepository<Contact, Integer> , Jpa
     WHERE p.phoneNumber LIKE CONCAT('%', :phone, '%')
 """)
     List<Contact> searchByFirstName(@Param("firstName") String phone);
-//    @Query("SELECT c FROM Contact c " +
-//            "WHERE (:firstName IS NULL OR LOWER(c.firstName) LIKE LOWER(CONCAT('%', :firstName, '%'))) " +
-//            "OR (:lastName IS NULL OR LOWER(c.lastName) LIKE LOWER(CONCAT('%', :lastName, '%')))")
-//    Page<ContactResponsedto> filter(@Param("firstName") String firstName,
-//                                    @Param("lastName") String lastName,
-//                                    Pageable pageable);
 
     @Query("""
        SELECT c FROM Contact c
