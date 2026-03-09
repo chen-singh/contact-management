@@ -51,7 +51,7 @@ class ContactTest {
         contact.onCreate();
         LocalDateTime createdTime = contact.getUpdatedAt();
 
-        Thread.sleep(5); // small delay to ensure time difference
+        Thread.sleep(5); 
 
         contact.onUpdate();
 
