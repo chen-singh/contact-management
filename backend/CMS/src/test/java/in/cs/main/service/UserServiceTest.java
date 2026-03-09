@@ -40,7 +40,7 @@ class UserServiceTest {
         user.setPassword("password");
     }
 
-    // ================= REGISTER =================
+    // register
 
     @Test
     void testRegister() {
@@ -57,7 +57,7 @@ class UserServiceTest {
         verify(repo).save(user);
     }
 
-    // ================= FIND BY EMAIL =================
+    // findbyemail
 
     @Test
     void testFindByEmail() {
@@ -69,7 +69,7 @@ class UserServiceTest {
         assertEquals(user, result);
     }
 
-    // ================= GET CURRENT USER =================
+    //getcurentuser
 
     @Test
     void testGetCurrentUser_Success() {
@@ -96,7 +96,7 @@ class UserServiceTest {
                 () -> service.getCurrentUser(authentication));
     }
 
-    // ================= UPDATE CURRENT USER =================
+    //updateuser
 
     @Test
     void testUpdateCurrentUser_Success() {
@@ -136,7 +136,7 @@ class UserServiceTest {
                 () -> service.updateCurrentUser(updated, authentication));
     }
 
-    // ================= CHANGE PASSWORD =================
+    // paswordchange
 
     @Test
     void testChangePassword_Success() {
