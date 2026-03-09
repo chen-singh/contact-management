@@ -52,7 +52,7 @@ class UserControllerTest {
         user.setPassword("password");
     }
 
-    // ================= REGISTER =================
+    // REGISTER 
 
     @Test
     void testRegister() {
@@ -65,7 +65,7 @@ class UserControllerTest {
         verify(service).register(user);
     }
 
-    // ================= LOGIN SUCCESS =================
+    // LOGIN SUCCESS 
 
     @Test
     void testLogin_Success() {
@@ -96,7 +96,7 @@ class UserControllerTest {
         verify(jwtService).generateToken("test@example.com");
     }
 
-    // ================= LOGIN FAILURE =================
+    //  LOGIN FAILURE 
 
     @Test
     void testLogin_Failure() {
@@ -113,7 +113,7 @@ class UserControllerTest {
         assertEquals("Invalid credentials", response.getBody());
     }
 
-    // ================= GET PROFILE =================
+    //  GET PROFILE 
 
     @Test
     void testGetProfile() {
@@ -126,7 +126,7 @@ class UserControllerTest {
         verify(service).getCurrentUser(authentication);
     }
 
-    // ================= UPDATE PROFILE =================
+    // UPDATE PROFILE 
 
     @Test
     void testUpdateProfile() {
@@ -143,7 +143,7 @@ class UserControllerTest {
         verify(service).updateCurrentUser(updated, authentication);
     }
 
-    // ================= CHANGE PASSWORD =================
+    //  CHANGE PASSWORD 
 
     @Test
     void testChangePassword() {
