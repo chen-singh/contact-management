@@ -50,7 +50,7 @@ class ContactServiceTest {
         responseDto = new ContactResponsedto();
     }
 
-    // ================= CREATE =================
+    // create 
 
     @Test
     void testCreate() {
@@ -71,7 +71,7 @@ class ContactServiceTest {
         }
     }
 
-    // ================= GET BY ID =================
+    // GET BY ID 
 
     @Test
     void testGetById_Success() {
@@ -98,7 +98,7 @@ class ContactServiceTest {
                 () -> service.getById(1));
     }
 
-    // ================= GET ALL LIST =================
+    // GET ALL LIST 
 
     @Test
     void testGetAll_List() {
@@ -116,7 +116,7 @@ class ContactServiceTest {
         }
     }
 
-    // ================= GET ALL PAGE =================
+    //  GET ALL PAGE
 
     @Test
     void testGetAll_Page() {
@@ -136,7 +136,7 @@ class ContactServiceTest {
         }
     }
 
-    // ================= DELETE =================
+    //  DELETE 
 
     @Test
     void testDelete() {
@@ -147,7 +147,7 @@ class ContactServiceTest {
         verify(repository).deleteById(1);
     }
 
-    // ================= SEARCH =================
+    //  SEARCH 
 
     @Test
     void testSearch() {
@@ -169,7 +169,7 @@ class ContactServiceTest {
         }
     }
 
-    // ================= UPDATE =================
+    //  UPDATE 
 
     @Test
     void testUpdate_Success() {
